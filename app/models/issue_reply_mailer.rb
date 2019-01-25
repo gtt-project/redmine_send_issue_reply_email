@@ -20,12 +20,14 @@ class IssueReplyMailer < Mailer
     end
   end
 
-  def notification(issue, journal)
+  def notification(user, issue, journal)
     redmine_headers 'Project' => issue.project.identifier, 'Issue-Id' => issue.id
     message_id journal
     references issue
 
+    @user = user
     @journal = journal
+    @issue = issue
     @email_delivery_setting = issue.project.email_delivery_setting_of_issue_reply
 
     journal.details.where(property: 'attachment').each do |journal_detail|
