@@ -26,7 +26,7 @@ class SendIssueReplyEmail::EmailDeliverySettingOfIssueRepliesControllerTest < Ac
     project = Project.find(1)
     assert_nil project.email_delivery_setting_of_issue_reply
 
-    post :test_email, { id: project.id }
+    post :test_email, params: { id: project.id }
     assert_redirected_to '/projects/ecookbook/settings/email_delivery_setting_of_issue_reply'
 
     assert_nil flash[:notice]
@@ -38,7 +38,7 @@ class SendIssueReplyEmail::EmailDeliverySettingOfIssueRepliesControllerTest < Ac
     email_delivery_setting = generate_email_delivery_setting_of_same_redmine(project)
     assert_not_nil project.email_delivery_setting_of_issue_reply
 
-    post :test_email, { id: project.id }
+    post :test_email, params: { id: project.id }
     assert_redirected_to '/projects/ecookbook/settings/email_delivery_setting_of_issue_reply'
 
     assert_nil flash[:error]
@@ -48,7 +48,7 @@ class SendIssueReplyEmail::EmailDeliverySettingOfIssueRepliesControllerTest < Ac
   def test_invalid_edit_with_blank
     assert_nil Project.find(1).email_delivery_setting_of_issue_reply
     assert_no_difference 'EmailDeliverySettingOfIssueReply.count' do
-      xhr :post, :edit, {
+      post :edit, xhr: true, params: {
         id: 1,
         email_delivery_setting_of_issue_reply: {
           project_id: '',
@@ -68,7 +68,7 @@ class SendIssueReplyEmail::EmailDeliverySettingOfIssueRepliesControllerTest < Ac
   def test_invalid_edit_with_format
     assert_nil Project.find(1).email_delivery_setting_of_issue_reply
     assert_no_difference 'EmailDeliverySettingOfIssueReply.count' do
-      xhr :post, :edit, {
+      post :edit, xhr: true, params: {
         id: 1,
         email_delivery_setting_of_issue_reply: {
           project_id: 1,
@@ -91,7 +91,7 @@ class SendIssueReplyEmail::EmailDeliverySettingOfIssueRepliesControllerTest < Ac
 
     assert_nil Project.find(1).email_delivery_setting_of_issue_reply
     assert_no_difference 'EmailDeliverySettingOfIssueReply.count' do
-      get :edit, {
+      get :edit, params: {
         id: 1, email_delivery_setting_of_issue_reply: expected_values
       }
     end
@@ -100,7 +100,7 @@ class SendIssueReplyEmail::EmailDeliverySettingOfIssueRepliesControllerTest < Ac
 
     # put
     assert_no_difference 'EmailDeliverySettingOfIssueReply.count' do
-      put :edit, {
+      put :edit, params: {
         id: 1, email_delivery_setting_of_issue_reply: expected_values
       }
     end
@@ -109,7 +109,7 @@ class SendIssueReplyEmail::EmailDeliverySettingOfIssueRepliesControllerTest < Ac
 
     # post
     assert_no_difference 'EmailDeliverySettingOfIssueReply.count' do
-      post :edit, {
+      post :edit, params: {
         id: 1, email_delivery_setting_of_issue_reply: expected_values
       }
     end
@@ -123,7 +123,7 @@ class SendIssueReplyEmail::EmailDeliverySettingOfIssueRepliesControllerTest < Ac
 
     assert_nil Project.find(1).email_delivery_setting_of_issue_reply
     assert_no_difference 'EmailDeliverySettingOfIssueReply.count' do
-      xhr :get, :edit, {
+      get :edit, xhr: true, params: {
         id: 1, email_delivery_setting_of_issue_reply: expected_values
       }
     end
@@ -132,7 +132,7 @@ class SendIssueReplyEmail::EmailDeliverySettingOfIssueRepliesControllerTest < Ac
 
     # put
     assert_no_difference 'EmailDeliverySettingOfIssueReply.count' do
-      xhr :put, :edit, {
+      put :edit, xhr: true, params: {
         id: 1, email_delivery_setting_of_issue_reply: expected_values
       }
     end
@@ -141,7 +141,7 @@ class SendIssueReplyEmail::EmailDeliverySettingOfIssueRepliesControllerTest < Ac
 
     # post: create
     assert_difference 'EmailDeliverySettingOfIssueReply.count' do
-      xhr :post, :edit, {
+      post :edit, xhr: true, params: {
         id: 1, email_delivery_setting_of_issue_reply: expected_values
       }
     end
@@ -152,7 +152,7 @@ class SendIssueReplyEmail::EmailDeliverySettingOfIssueRepliesControllerTest < Ac
     # post: changed
     expected_values = expected_values_on_changed_update_email_delivery_setting
     assert_no_difference 'EmailDeliverySettingOfIssueReply.count' do
-      xhr :post, :edit, {
+      post :edit, xhr: true, params: {
         id: 1, email_delivery_setting_of_issue_reply: expected_values
       }
     end
@@ -163,7 +163,7 @@ class SendIssueReplyEmail::EmailDeliverySettingOfIssueRepliesControllerTest < Ac
     # post: blank
     expected_values = expected_values_on_blank_update_email_delivery_setting
     assert_no_difference 'EmailDeliverySettingOfIssueReply.count' do
-      xhr :post, :edit, {
+      post :edit, xhr: true, params: {
         id: 1, email_delivery_setting_of_issue_reply: expected_values
       }
     end

@@ -32,7 +32,7 @@ class SendIssueReplyEmail::ProjectsControllerTest < ActionController::TestCase
           Project.find(project_id).public_send(enabled_module_method, :send_issue_reply_email)
           Role.find(1).public_send(role_permission_method, :manage_email_delivery_setting)
 
-          get :settings, { id: project_id, tab: 'email_delivery_setting_of_issue_reply' }
+          get :settings, params: { id: project_id, tab: 'email_delivery_setting_of_issue_reply' }
           assert_response response_codes.shift
           assert_select('div.tabs > ul > li > a#tab-email_delivery_setting_of_issue_reply', count: element_count.shift)
         end
@@ -45,7 +45,7 @@ class SendIssueReplyEmail::ProjectsControllerTest < ActionController::TestCase
     @request.session[:user_id] = 1
     Project.find(1).enable_module!(:send_issue_reply_email)
 
-    get :settings, { id: 1, tab: 'email_delivery_setting_of_issue_reply' }
+    get :settings, params: { id: 1, tab: 'email_delivery_setting_of_issue_reply' }
     assert_response :success
     assert_select 'form#email-delivery-setting' do
       assert_select 'input[type=hidden][name=?]',

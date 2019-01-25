@@ -19,7 +19,7 @@ class SendIssueReplyEmail::IssuesControllerTest < ActionController::TestCase
     @project.enable_module!(:send_issue_reply_email)
     @email_delivery_setting = generate_email_delivery_setting_of_same_redmine(@project)
 
-    get :new, { project_id: 1 }
+    get :new, params: { project_id: 1 }
     assert_response :success
     assert_select 'div#email-addresses', false
     assert @project.email_delivery_setting_of_issue_reply
@@ -29,7 +29,7 @@ class SendIssueReplyEmail::IssuesControllerTest < ActionController::TestCase
     @project.disable_module!(:send_issue_reply_email)
     @email_delivery_setting = generate_email_delivery_setting_of_same_redmine(@project)
 
-    get :new, { project_id: 1 }
+    get :new, params: { project_id: 1 }
     assert_response :success
     assert_select 'div#email-addresses', false
     assert @project.email_delivery_setting_of_issue_reply
@@ -38,7 +38,7 @@ class SendIssueReplyEmail::IssuesControllerTest < ActionController::TestCase
   def test_get_new_with_enable_module_and_no_record
     @project.enable_module!(:send_issue_reply_email)
 
-    get :new, { project_id: 1 }
+    get :new, params: { project_id: 1 }
     assert_response :success
     assert_select 'div#email-addresses', false
     assert_nil @project.email_delivery_setting_of_issue_reply
@@ -47,7 +47,7 @@ class SendIssueReplyEmail::IssuesControllerTest < ActionController::TestCase
   def test_get_new_with_disable_module_and_no_record
     @project.disable_module!(:send_issue_reply_email)
 
-    get :new, { project_id: 1 }
+    get :new, params: { project_id: 1 }
     assert_response :success
     assert_select 'div#email-addresses', false
     assert_nil @project.email_delivery_setting_of_issue_reply
@@ -65,7 +65,7 @@ class SendIssueReplyEmail::IssuesControllerTest < ActionController::TestCase
       cc: [ 'dummy-cc-1@matsukei.co.jp', 'dummy-cc-2@matsukei.co.jp' ])
     EmailAddressOfIssueReply.create_by_received_mail(issue.id, email)
 
-    get :edit, { id: issue.id }
+    get :edit, params: { id: issue.id }
     assert_response :success
 
     assert_select 'input[name=is_send_email][checked=checked]', count: 1
@@ -96,7 +96,7 @@ class SendIssueReplyEmail::IssuesControllerTest < ActionController::TestCase
       cc: [ 'dummy-cc-1@matsukei.co.jp', 'dummy-cc-2@matsukei.co.jp' ])
     EmailAddressOfIssueReply.create_by_received_mail(issue.id, email)
 
-    get :edit, { id: 1 }
+    get :edit, params: { id: 1 }
     assert_response :success
 
     assert_select 'input[name=is_send_email][checked=checked]', count: 0
@@ -120,7 +120,7 @@ class SendIssueReplyEmail::IssuesControllerTest < ActionController::TestCase
     @project.disable_module!(:send_issue_reply_email)
     @email_delivery_setting = generate_email_delivery_setting_of_same_redmine(@project)
 
-    get :edit, { id: 1 }
+    get :edit, params: { id: 1 }
     assert_response :success
     assert_select 'div#email-addresses', false
     assert @project.email_delivery_setting_of_issue_reply
@@ -129,7 +129,7 @@ class SendIssueReplyEmail::IssuesControllerTest < ActionController::TestCase
   def test_get_edit_with_enable_module_and_no_record
     @project.enable_module!(:send_issue_reply_email)
 
-    get :edit, { id: 1 }
+    get :edit, params: { id: 1 }
     assert_response :success
     assert_select 'div#email-addresses', false
     assert_nil @project.email_delivery_setting_of_issue_reply
@@ -138,7 +138,7 @@ class SendIssueReplyEmail::IssuesControllerTest < ActionController::TestCase
   def test_get_edit_with_disable_module_and_no_record
     @project.disable_module!(:send_issue_reply_email)
 
-    get :edit, { id: 1 }
+    get :edit, params: { id: 1 }
     assert_response :success
     assert_select 'div#email-addresses', false
     assert_nil @project.email_delivery_setting_of_issue_reply
@@ -151,7 +151,7 @@ class SendIssueReplyEmail::IssuesControllerTest < ActionController::TestCase
     with_settings notified_events: [] do
       assert_no_difference('Journal.count') do
         assert_no_difference('EmailAddressOfIssueReply.count') do
-          put :update, {
+          put :update, params: {
             id: 1, issue: {
               notes: 'Fugafuga',
               email_address_of_issue_reply_attributes: {
@@ -179,7 +179,7 @@ class SendIssueReplyEmail::IssuesControllerTest < ActionController::TestCase
     with_settings notified_events: [] do
       assert_no_difference('Journal.count') do
         assert_no_difference('EmailAddressOfIssueReply.count') do
-          put :update, {
+          put :update, params: {
             id: 1, issue: {
               notes: 'Fugafuga',
               email_address_of_issue_reply_attributes: {
@@ -209,7 +209,7 @@ class SendIssueReplyEmail::IssuesControllerTest < ActionController::TestCase
     with_settings notified_events: [] do
       assert_difference('Journal.count') do
         assert_no_difference('EmailAddressOfIssueReply.count') do
-          put :update, {
+          put :update, params: {
             id: 1, issue: {
               notes: 'Fugafuga'
             }, is_send_email: '0'
@@ -227,7 +227,7 @@ class SendIssueReplyEmail::IssuesControllerTest < ActionController::TestCase
     with_settings notified_events: [] do
       assert_no_difference('Journal.count') do
         assert_difference('EmailAddressOfIssueReply.count') do
-          put :update, {
+          put :update, params: {
             id: 1, issue: {
               notes: '',
               email_address_of_issue_reply_attributes: {
@@ -260,7 +260,7 @@ class SendIssueReplyEmail::IssuesControllerTest < ActionController::TestCase
     with_settings notified_events: [] do
       assert_difference('Journal.count') do
         assert_difference('EmailAddressOfIssueReply.count') do
-          put :update, {
+          put :update, params: {
             id: 1, issue: {
               notes: '',
               email_address_of_issue_reply_attributes: {
@@ -290,7 +290,7 @@ class SendIssueReplyEmail::IssuesControllerTest < ActionController::TestCase
     with_settings notified_events: [] do
       assert_difference('Journal.count') do
         assert_no_difference('EmailAddressOfIssueReply.count') do
-          put :update, {
+          put :update, params: {
             id: 1, issue: {
               notes: "Send a notification email!!\r\nYou can send it to an email address that is *not a Redmine user* .",
               email_address_of_issue_reply_attributes: {
