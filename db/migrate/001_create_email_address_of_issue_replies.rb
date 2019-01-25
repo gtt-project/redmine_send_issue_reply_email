@@ -1,4 +1,4 @@
-class CreateEmailAddressOfIssueReplies < ActiveRecord::Migration
+class CreateEmailAddressOfIssueReplies < ActiveRecord::Migration[5.2]
   def change
     create_table :email_address_of_issue_replies do |t|
       t.integer :issue_id, null: false

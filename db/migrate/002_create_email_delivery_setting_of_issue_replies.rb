@@ -1,4 +1,4 @@
-class CreateEmailDeliverySettingOfIssueReplies < ActiveRecord::Migration
+class CreateEmailDeliverySettingOfIssueReplies < ActiveRecord::Migration[5.2]
   def change
     create_table :email_delivery_setting_of_issue_replies do |t|
       t.integer :project_id
