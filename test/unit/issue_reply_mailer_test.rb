@@ -26,6 +26,7 @@ class IssueReplyMailerTest < ActiveSupport::TestCase
   end
 
   def test_email_addresses_should_empty_bcc_with_bcc_recipients_off
+    user = User.find(1)
     issue = Issue.find(1)
     journal = Journal.find(1)
     email = DummyMail.new(from: [ 'dummy-from@customer.co.jp' ],
@@ -38,7 +39,7 @@ class IssueReplyMailerTest < ActiveSupport::TestCase
     email_delivery_setting.update(plain_text: true)
 
     with_settings bcc_recipients: 0 do
-      assert IssueReplyMailer.notification(issue.reload, journal).deliver
+      assert IssueReplyMailer.notification(user, issue.reload, journal).deliver
       mail = last_email
       # to: from + to or reply_to
       assert_equal [ 'dummy-from@customer.co.jp', 'dummy-to@matsukei.co.jp' ], mail.to.to_a
@@ -52,6 +53,7 @@ class IssueReplyMailerTest < ActiveSupport::TestCase
   end
 
   def test_email_addresses_should_empty_bcc_with_bcc_recipients_on
+    user = User.find(1)
     issue = Issue.find(1)
     journal = Journal.find(1)
     email = DummyMail.new(from: [ 'dummy-from@customer.co.jp' ],
@@ -64,7 +66,7 @@ class IssueReplyMailerTest < ActiveSupport::TestCase
     email_delivery_setting.update(plain_text: true)
 
     with_settings bcc_recipients: 1 do
-      assert IssueReplyMailer.notification(issue.reload, journal).deliver
+      assert IssueReplyMailer.notification(user, issue.reload, journal).deliver
       mail = last_email
       # to: from + to or reply_to
       assert_equal [ 'dummy-reply-to@customer.co.jp' ], mail.to.to_a
