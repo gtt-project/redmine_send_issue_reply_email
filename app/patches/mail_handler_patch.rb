@@ -24,8 +24,11 @@ module SendIssueReplyEmail
           return journal
         end
 
-        alias_method_chain :receive_issue, :record_email_addresses
-        alias_method_chain :receive_issue_reply, :record_email_addresses
+        alias_method :receive_issue_without_record_email_addresses, :receive_issue
+        alias_method :receive_issue, :receive_issue_with_record_email_addresses
+
+        alias_method :receive_issue_reply_without_record_email_addresses, :receive_issue_reply
+        alias_method :receive_issue_reply, :receive_issue_reply_with_record_email_addresses
     end
 
   end

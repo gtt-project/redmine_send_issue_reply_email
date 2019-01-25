@@ -7,7 +7,8 @@ module SendIssueReplyEmail
     extend ActiveSupport::Concern
 
     included do
-      alias_method_chain :project_settings_tabs, :email_delivery_setting_of_issue_reply_tab
+      alias_method :project_settings_tabs_without_email_delivery_setting_of_issue_reply_tab, :project_settings_tabs
+      alias_method :project_settings_tabs, :project_settings_tabs_with_email_delivery_setting_of_issue_reply_tab
     end
 
     def project_settings_tabs_with_email_delivery_setting_of_issue_reply_tab
