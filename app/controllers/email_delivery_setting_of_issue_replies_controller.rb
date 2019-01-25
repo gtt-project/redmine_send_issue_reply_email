@@ -7,6 +7,10 @@ class EmailDeliverySettingOfIssueRepliesController < ApplicationController
   def edit
     @email_delivery_setting = EmailDeliverySettingOfIssueReply.find_or_initialize_by(project_id: @project.id)
     @email_delivery_setting.update(permit_params) if request.xhr? && request.post?
+    respond_to do |format|
+      format.html { render layout: false, content_type: 'text/html' }
+      format.js
+    end
   end
 
   def test_email
