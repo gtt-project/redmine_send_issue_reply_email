@@ -1,5 +1,4 @@
 class EmailDeliverySettingOfIssueReply < ActiveRecord::Base
-  unloadable
 
   include Redmine::Ciphering
 

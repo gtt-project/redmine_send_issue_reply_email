@@ -1,5 +1,4 @@
 class EmailAddressOfIssueReply < ActiveRecord::Base
-  unloadable
 
   has_one :issue
 

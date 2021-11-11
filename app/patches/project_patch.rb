@@ -3,10 +3,8 @@ require_dependency 'project'
 module SendIssueReplyEmail
   module ProjectPatch
     extend ActiveSupport::Concern
-    unloadable
 
     included do
-      unloadable
 
       has_one :email_delivery_setting_of_issue_reply, dependent: :destroy
     end
