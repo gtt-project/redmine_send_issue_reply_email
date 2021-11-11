@@ -1,5 +1,4 @@
 class EmailDeliverySettingOfIssueRepliesController < ApplicationController
-  unloadable
 
   menu_item :settings
   before_action :find_project, :authorize

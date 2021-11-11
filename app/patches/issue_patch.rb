@@ -3,10 +3,8 @@ require_dependency 'issue'
 module SendIssueReplyEmail
   module IssuePatch
     extend ActiveSupport::Concern
-    unloadable
 
     included do
-      unloadable
 
       has_one :email_address_of_issue_reply, dependent: :destroy
       accepts_nested_attributes_for :email_address_of_issue_reply

@@ -2,7 +2,6 @@ require_dependency 'projects_helper'
 
 module SendIssueReplyEmail
   module ProjectsHelperPatch
-    unloadable
 
     extend ActiveSupport::Concern
 

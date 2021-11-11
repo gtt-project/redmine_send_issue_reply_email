@@ -3,10 +3,8 @@ require_dependency 'mail_handler'
 module SendIssueReplyEmail
   module MailHandlerPatch
     extend ActiveSupport::Concern
-    unloadable
 
     included do
-      unloadable
 
       private
 
